@@ -1,20 +1,15 @@
 class Student:
-    def __init__(self, name, surname, email, birth_day, enrollment_date):
-        self.name = name
-        self.surname = surname
+    def __init__(self, first_Name, last_Name, email, enrollment_Date, date_birth):
+        self.first_Name = first_Name
+        self.last_Name = last_Name
         self.email = email
-        self.birth_day = birth_day
-        self.enrollment_date = enrollment_date
+        self.enrollment_Date = enrollment_Date
+        self.date_birth = date_birth
 
     @staticmethod
-    def correct_format_date(date_str):
-        parts = date_str.split('/')
-        
-        if len(parts) != 3:
-            raise ValueError("Invalid date format. Please use yyyy/mm/dd.")
-
+    def validate_date(date_str):
         try:
-            year, month, day = map(int, parts)
+            year, month, day = map(int, date_str.split('/'))
 
             if not (1 <= month <= 12) or not (1 <= day <= 31):
                 raise ValueError("Invalid date format. Please use yyyy/mm/dd.")
@@ -23,19 +18,20 @@ class Student:
         except (ValueError, TypeError):
             raise ValueError("Invalid date format. Please use yyyy/mm/dd.")
 
-    def change_to_string(self):
-        student_dict = {
-            'First name': self.name,
-            'Last name': self.surname,
-            'Email': self.email,
-            'Enrollment date': self.enrollment_date,
-            'Date of birth': self.birth_day
-        }
-        student_str = ', '.join([f'{key}: {value}' for key, value in student_dict.items()])
-        return f'{{{student_str}}}'
+    def to_dict_as_str(self):
+        # Convert the student object to a custom formatted string
+        student_str = (
+            f'{{First name: {self.first_Name}, '
+            f'Last name: {self.last_Name}, '
+            f'Email: {self.email}, '
+            f'Enrollment date: {self.enrollment_Date}, '
+            f'Date of birth: {self.date_birth}}}'
+        )
+        return student_str
 
     def add_to_file_enrolled(self, file_name):
-        student_info = self.change_to_string()  # Get the student's info as a formatted string
+        student_info = self.to_dict_as_str()  # Get the student's info as a formatted string
 
         with open(file_name, 'a') as file:
             file.write(student_info + '\n')
+

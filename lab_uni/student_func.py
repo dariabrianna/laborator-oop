@@ -23,7 +23,7 @@ class StudentOperations:
             except ValueError as e:
                 print(e)
 
-            FacultyOperations.graduate_student(name, surname, "", self.file_name_congratulation_enrolling)
+            FacultyOperations.graduate_student(name, surname, "", enrollment_date, birth_day)
 
             another = input("Do you want to add another student? (y/n)").lower()
             if another != "y":
