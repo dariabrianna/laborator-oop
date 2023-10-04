@@ -79,3 +79,23 @@ while True:
         print("What do you want to do?")
         print("ns - Create student")
         sub_option = input("Enter sub-option: ")
+
+    if sub_option == 'ns':
+        student_index += 1
+        students_data.append(None)
+        print("Enter Student Name:")
+        name = input("Name: ")
+        print("Enter Student Surname: ")
+        surname = input("Surname: ")
+        print("Enter Student email: ")
+        email = input("Email: ")
+        print("Enter Student Date of birth")
+        birth_year = int(input("Year: "))
+        birth_month = int(input("Month: "))
+        birth_day = int(input("Day: "))
+        print("Enter Student date of enrollment ")
+        enrollment_year = int(input("Year :"))
+        enrollment_month = int(input("Month: "))
+        enrollment_day = int(input("Day: "))
+        graduation_status = input("Choose 'gratuated' or 'not_graduated': ")
+        faculty = input("Faculty: ")
