@@ -1,19 +1,19 @@
 class University:
-    def init(self, faculties):
+    def __init__(self, faculties):
         self.faculties = faculties
 
 faculties_data = {}
 class Faculty:
-    def init(self, name, abbreviation, study_field):
+    def __init__(self, name, abbreviation, study_field):
         self.name = name
         self. abbreviation = abbreviation
-        swlf.study_field = study_field
+        self.study_field = study_field
 
     def add_to_university(self):
         faculties_data[self.name] = []
 
 class Student:
-    def init(self, name, surname, email, birth_year, birth_month, birth_day, enrollment_year, enrollment_month, enrollment_day, graduation_status, faculty):
+    def __init__(self, name, surname, email, birth_year, birth_month, birth_day, enrollment_year, enrollment_month, enrollment_day, graduation_status, faculty):
         self.name = name
         self.surname = surname
         self.email = email
@@ -36,6 +36,7 @@ students_data = []
 faculties_list = []
 student_index = -1
 faculty_index = -1
+
 
 def find_student(faculties_data, student_email):
     for faculty_name, students in faculties_data.items():
@@ -67,6 +68,9 @@ def list_faculties_field(field, faculties_list):
         if faculty.study_field == field:
             print(faculty.name)
 
+faculty_counter = 0
+
+
 while True:
     print("Choose from the following options: ")
     print("f - Faculty operations")
@@ -78,37 +82,37 @@ while True:
     if option == 's':
         print("What do you want to do?")
         print("ns - Create student")
-        sub_option = input("Enter suboption: ")
+        sub_option = input("Enter option: ")
 
-    if sub_option == 'ns':
-        student_index += 1
-        students_data.append(None)
-        print("Enter Student Name:")
-        name = input("Name: ")
-        print("Enter Student Surname: ")
-        surname = input("Surname: ")
-        print("Enter Student email: ")
-        email = input("Email: ")
-        print("Enter Student Date of birth")
-        birth_year = int(input("Year: "))
-        birth_month = int(input("Month: "))
-        birth_day = int(input("Day: "))
-        print("Enter Student date of enrollment ")
-        enrollment_year = int(input("Year :"))
-        enrollment_month = int(input("Month: "))
-        enrollment_day = int(input("Day: "))
-        graduation_status = input("Choose 'gratuated' or 'not_graduated': ")
-        faculty = input("Faculty: ")
+        if sub_option == 'ns':
+            student_index += 1
+            students_data.append(None)
+            print("Enter Student Name:")
+            name = input("Name: ")
+            print("Enter Student Surname: ")
+            surname = input("Surname: ")
+            print("Enter Student email: ")
+            email = input("Email: ")
+            print("Enter Student Date of birth")
+            birth_year = int(input("Year: "))
+            birth_month = int(input("Month: "))
+            birth_day = int(input("Day: "))
+            print("Enter Student date of enrollment ")
+            enrollment_year = int(input("Year :"))
+            enrollment_month = int(input("Month: "))
+            enrollment_day = int(input("Day: "))
+            graduation_status = input("Choose 'gratuated' or 'not_graduated': ")
+            faculty = input("Faculty: ")
 
-        students_data[student_index] = Student(name, surname, email, birth_year, birth_month, birth_day, enrollment_year, enrollment_month, enrollment_day, graduation_status, faculty)
-        students_data[student_index].add_student_to_faculty()
+            students_data[student_index] = Student(name, surname, email, birth_year, birth_month, birth_day, enrollment_year, enrollment_month, enrollment_day, graduation_status, faculty)
+            students_data[student_index].add_student_to_faculty()
 
     elif option == 'f':
         print("What do you want to do?")
         print("nf - Create faculty")
         print("ss - Search student and show faculty")
         print("gf - Graduate a student from a faculty")
-        sub_option = input("Enter suboption")
+        sub_option = input("Enter option: ")
 
         if sub_option == "nf":
             faculty_index += 1
@@ -123,17 +127,17 @@ while True:
             faculties_list[faculty_index].add_to_university()
             UTM = University(faculties_data)
 
-        elif sub_option = 'ss':
-        student_email = input("Enter stdudent email: ")
-        find_student(faculties_data, student_email)
+        elif sub_option == 'ss':
+            student_email = input("Enter student email: ")
+            find_student(faculties_data, student_email)
 
         elif sub_option == 'gf':
-        student_name = input("Enter the name of the student to graduate: ")
-        for student in students_data:
-            if student.name == student_name:
-                if student.graduation_status == "not_graduated":
-                    stdudent.graduation_status = "graduated"
-                    print(f"Now, {stdudent.name} is graduated ! ! !")
+            student_name = input("Enter the name of the student to graduate: ")
+            for student in students_data:
+                if student.name == student_name:
+                    if student.graduation_status == "not_graduated":
+                        stdudent.graduation_status = "graduated"
+                        print(f"Now, {stdudent.name} is graduated ! ! !")
 
     elif option == 'g':
         print("ds - Display current enrolled students")
@@ -141,7 +145,7 @@ while True:
         print("tl - Tell or not if a student belongs to this faculty")
         print("df - Display University faculties ")
         print("fd - Display faculties belonging to a field (Ex. FOOD_TECHNOLOGY)")
-        sub_option = input("Enter suboption: ")
+        sub_option = input("Enter  option: ")
 
         if sub_option == 'ds':
             list_enrolled_students(students_data)
@@ -165,6 +169,23 @@ while True:
         print("You quited the program.")
         break
 
-    
+# Open a text file in write mode
+with open("data.txt", "w") as txt_file:
+    for key, value in faculties_data.items():
+        faculty_name = key
+        if key not in faculties_list:
+            abbreviation = input(f"Enter abbreviation for {faculty_name}: ")
+            study_field = input(f"Enter study field for {faculty_name}: ")
+        else:
+            # Retrieve the abbreviation and study field from the faculties_list
+            faculty_info = next(faculty for faculty in faculties_list if faculty.name == faculty_name)
+            abbreviation = faculty_info.abbreviation
+            study_field = faculty_info.study_field
 
-   
+        txt_file.write(f"Faculty: {faculty_name}\n")
+        txt_file.write(f"Abbreviation: {abbreviation}\n")
+        txt_file.write(f"Study Field: {study_field}\n")
+
+        for student_info in value:
+            txt_file.write(f"    Student: {', '.join(map(str, student_info))}\n")
+
