@@ -78,7 +78,7 @@ while True:
     if option == 's':
         print("What do you want to do?")
         print("ns - Create student")
-        sub_option = input("Enter sub-option: ")
+        sub_option = input("Enter suboption: ")
 
     if sub_option == 'ns':
         student_index += 1
@@ -99,3 +99,39 @@ while True:
         enrollment_day = int(input("Day: "))
         graduation_status = input("Choose 'gratuated' or 'not_graduated': ")
         faculty = input("Faculty: ")
+
+        students_data[student_index] = Student(name, surname, email, birth_year, birth_month, birth_day, enrollment_year, enrollment_month, enrollment_day, graduation_status, faculty)
+        students_data[student_index].add_student_to_faculty()
+
+    elif option == 'f':
+        print("What do you want to do?")
+        print("nf - Create faculty")
+        print("ss - Search student and show faculty")
+        print("gf - Graduate a student from a faculty")
+        sub_option = input("Enter suboption")
+
+        if sub_option == "nf":
+            faculty_index += 1
+            faculties_list.append(None)
+            print("Enter faculty name: ")
+            name = input("Name: ")
+            print("Enter Faculty abreviation: ")
+            abbreviation = input("Abbreviation: ")
+            print("Enter Faculty studyField")
+            study_field = input("studyField: ")
+            faculties_list[faculty_index] = Faculty(name, abbreviation, study_field)
+            faculties_list[faculty_index].add_to_university()
+            UTM = University(faculties_data)
+
+    elif sub_option = 'ss':
+        student_email = input("Enter stdudent email: ")
+        find_student(faculties_data, student_email)
+
+    elif sub_option == 'gf':
+        student_name = input("Enter the name of the student to graduate: ")
+        for student in students_data:
+            if student.name == student_name:
+                if student.graduation_status == "not_graduated":
+                    stdudent.graduation_status = "graduated"
+                    print(f"Now, {stdudent.name} is graduated ! ! !")
+                    
