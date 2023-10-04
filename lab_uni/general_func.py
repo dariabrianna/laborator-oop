@@ -1,3 +1,5 @@
+from faculty import Faculty
+
 class GeneralOperations:
     def __init__(self, file_name_faculties, file_name_enrolled):
         self.file_name_faculties = file_name_faculties

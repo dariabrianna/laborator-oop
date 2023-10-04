@@ -1,3 +1,5 @@
+from faculty import Faculty
+
 class FacultyOperations:
     def __init__(self, faculties_file, enrolled_file, graduates_file, enrolling_congrats_file, graduating_congrats_file):
         self.faculties_file = faculties_file
