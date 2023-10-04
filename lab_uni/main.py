@@ -31,3 +31,23 @@ class Student:
             faculties_data[self.faculty].append([self.name, self.surname, slef.birth_year, self.birth_month, self.birth_day, self.enrollment_year, self.enrollment_month, self.enrollment_day, self.graduation_status, self.faculty])
         else:
             print(f"Faculty '{self.faculty}' does not exist.")
+
+students_data = []
+faculties_list = []
+student_index = -1
+faculty_index = -1
+
+def find_student(faculties_data, student_email):
+    for faculty_name, students in faculties_data.items():
+        for student in students:
+            if student_email in student:
+                print(f"{student[0]} is studying at {faculty_name}")
+
+def place_truth(student_email, student_faculty):
+    for i in range(len(students_data)):
+        if students_data[i].email == student_email and students_data[i].faculty == student_faculty:
+            print(f"{students_data[i].name} is at {students_data[i].faculty}")
+
+def list_faculties(faculties_data):
+    for faculty_name in faculties_data.keys():
+        print(faculty_name)
