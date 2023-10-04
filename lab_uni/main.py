@@ -67,4 +67,15 @@ def list_faculties_field(field, faculties_list):
         if faculty.study_field == field:
             print(faculty.name)
 
-            
+while True:
+    print("Choose from the following options: ")
+    print("f - Faculty operations")
+    print("s - Student operations")
+    print("g - General operations")
+    print("q - Quit program")
+    option = input("Enter option: ")
+
+    if option == 's':
+        print("What do you want to do?")
+        print("ns - Create student")
+        sub_option = input("Enter sub-option: ")
