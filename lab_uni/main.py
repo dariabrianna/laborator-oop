@@ -51,3 +51,20 @@ def place_truth(student_email, student_faculty):
 def list_faculties(faculties_data):
     for faculty_name in faculties_data.keys():
         print(faculty_name)
+
+def list_enrolled_students(students_data):
+    for student in students_data:
+        if student.graduation_status == 'not_graduated':
+            print(student.name)
+
+def list_graduated_students(students_data):
+    for student in students_data:
+        if student.graduation_status == 'graduated':
+            print(student.name)
+
+def list_faculties_field(field, faculties_list):
+    for faculty in faculties_list:
+        if faculty.study_field == field:
+            print(faculty.name)
+
+            
