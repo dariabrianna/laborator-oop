@@ -1,12 +1,12 @@
 class Faculty:
-    def __init__(self, name, abbreviation, study_field):
-        self.name = name
-        self.abbreviation = abbreviation
-        self.first_Student = []
-        self.study_field = study_field
+    def __init__(self, Name, Abbreviation, Study_Field):
+        self.Name = Name
+        self.Abbreviation = Abbreviation
+        self.Student1 = []
+        self.Study_Field = Study_Field
 
     def add_faculty(self, file_name):
-        faculty_info = self.to_dict_as_str()  # Get the faculty's info as a formatted string
+        faculty_info = self.change_to_string()  # Get the faculty's info as a formatted string
 
         with open(file_name, 'a') as file:
             file.write(faculty_info + '\n')  # Write the faculty's info as a line in the file

@@ -18,7 +18,7 @@ class FacultyOperations:
             while True:
                 enrollment_date = input("Enter enrollment date (yyyy/mm/dd): ")
                 try:
-                    validate_date(enrollment_date)
+                    validate_date_input(enrollment_date)
                     break
                 except ValueError as e:
                     print(e)
@@ -27,7 +27,7 @@ class FacultyOperations:
                 # Check date of birth
                 date_of_birth = input("Enter date of birth (yyyy/mm/dd): ")
                 try:
-                    validate_date(date_of_birth)
+                    validate_date_input(date_of_birth)
                     break
                 except ValueError as e:
                     print(e)
@@ -264,7 +264,7 @@ class FacultyOperations:
             while True:
                 graduated_date = input("Enter graduated date (yyyy/mm/dd): ")
                 try:
-                    validate_date(graduated_date)
+                    validate_date_input(graduated_date)
                     break
                 except ValueError as e:
                     print(e)

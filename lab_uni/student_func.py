@@ -1,4 +1,4 @@
-from student impor Student
+from student import Student
 from faculty_func import FacultyOperations
 
 class StudentOperations:
@@ -9,21 +9,21 @@ class StudentOperations:
 
     def input_student(self):
         while True:
-            first_name = input("Enter first name: ")
-            last_name = input("Enter last name: ")
+            name = input("Enter first name: ")
+            surname = input("Enter last name: ")
             email = input("Enter email: ")
 
             enrollment_date = self.validate_date_input("Enter enrollment date (yyyy/mm/dd): ")
             birth_day = self.validate_date_input("Enter date of birth (yyyy/mm/dd): ")
 
             try:
-                student  Student(name, surname, email, enrollment_date, birth_day)
+                student = Student(name, surname, email, enrollment_date, birth_day)
                 student.add_to_file_enrolled(self.file_name_enrolled)
                 print(f"Student {name}, added successfully.")
             except ValueError as e:
                 print(e)
 
-            FacultyOperations.congratulations_enrolled(name, surname, "", self.file_name_congratulation_enrolling)
+            FacultyOperations.graduate_student(name, surname, "", self.file_name_congratulation_enrolling)
 
             another = input("Do you want to add another student? (y/n)").lower()
             if another != "y":
@@ -64,7 +64,7 @@ class StudentOperations:
         while True:
             date = input(message)
             try:
-                Student.validate_date(date)
+                Student.correct_format_date(date)
                 return date
             except ValueError as e:
                 print(e)
@@ -90,6 +90,30 @@ class StudentOperations:
                 enrolled_file.write(f"{{First name: {student['First name']}, Last name: {student['Last name']}, Email: {student['Email']}, Enrollment date: {student['Enrollment date']}, Date of birth: {student['Date of birth']}\n")
 
     def load_faculties_data(self):
-        faculties_data = [
-            
-        ]
+        faculties_data = []
+        with open(self.file_name_faculties, 'r') as faculty_files:
+            for line in faculty_file:
+                faculty_info = line.strip().split(', ')
+                if len(faculty_info) < 4:
+                    print("Invalid data in faculties.txt. Please check the file format.")
+                    break
+                student1_data = faculty_info[2].split(': ')[1].strip('[]')
+                student1_list = [s.strip() for s in student1_data.split(';') if s.strip()]
+                faculty = {
+                    'Name': faculty_info[0].split(': ')[1],
+                    'Abbreviation': faculty_info[1].split(': ')[1],
+                    'Student1': student1_list,
+                    'Study_Field': faculty_info[3].split(': ')[1]
+                }
+                
+                faculties_data.append(faculty)
+        return faculties_data
+
+        # Helper method to save faculty data to file
+    def save_faculties_data(self, faculties_data):
+        with open(self.file_name_faculties, 'w') as faculty_file:
+            for faculty in faculties_data:
+                students_str = '; '.join(faculty['Student1'])
+                faculty_file.write(
+                    f"Name: {faculty['Name']}, Abbreviation: {faculty['Abbreviation']}, Student1: [{students_str}], Study_Field: {faculty['Study_Field']}\n")
+
