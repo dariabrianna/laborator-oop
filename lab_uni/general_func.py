@@ -1,5 +1,6 @@
 from faculty import Faculty
 
+
 class GeneralOperations:
     def __init__(self, file_name_faculties, file_name_enrolled):
         self.file_name_faculties = file_name_faculties
@@ -21,23 +22,25 @@ class GeneralOperations:
 
             try:
                 faculty = Faculty(Name, Abbreviation, Study_Field)
-                faculty.add_faculty(self.file_name_faculties)
+                faculty.add_to_file_faculties(self.file_name_faculties)
                 print(f"Faculty {Name}, added successfully.")
             except ValueError as e:
                 print(e)
 
-            another = input("Do you want to add another faculty? (y/n)").lower()
-            if another != "y":
+
+            another = input("Do you want to add another faculty? (yes/no): ").lower()
+            if another != "yes":
                 break
 
     def search_student_what_faculty(self):
         while True:
-            student_email = input("Enter the student's email: ")
+            gmail_check = input("Enter the student's email: ")
             student_found = False
 
-            enrolled_students = []
-            faculties_data = []
+            enrolled_students = []  # List to store student information
+            faculties_data = []  # List to store faculty information
 
+            # Load enrolled students
             with open(self.file_name_enrolled, 'r') as enrolled_file:
                 for line in enrolled_file:
                     student_info = line.strip().split(', ')
@@ -50,35 +53,42 @@ class GeneralOperations:
                     }
                     enrolled_students.append(student)
 
-                    if student["Email"] == student_email:
+                    if student["Email"] == gmail_check:
                         student_found = True
                         break
-                    
+
             if not student_found:
-                print(f"Student with email '{student_email}' not found.")
+                print(f"Student with email '{gmail_check}' not found.")
                 continue
 
+            # Load faculty data
             with open(self.file_name_faculties, 'r') as faculty_file:
                 for line in faculty_file:
                     faculty_info = line.strip().split(', ')
                     if len(faculty_info) < 4:
                         print("Invalid data in faculties.txt. Please check the file format.")
                         break
-                    student_emails_str = faculty_info[2].split(': ')[1].strip('[]')
-                    student_emails = [s.strip() for s in student_emails_str.split(';') if s.strip()]
-                    faculty = Faculty(faculty_info[0].split(': ')[1], faculty_info[1].split(': ')[1], student_emails, faculty_info[3].split(': ')[1])
+                    student1_data = faculty_info[2].split(': ')[1].strip('[]')
+                    student1_list = [s.strip() for s in student1_data.split(';') if s.strip()]
+                    faculty = {
+                        'Name': faculty_info[0].split(': ')[1],
+                        'Abbreviation': faculty_info[1].split(': ')[1],
+                        'Student1': student1_list,
+                        'Study_Field': faculty_info[3].split(': ')[1]
+                    }
                     faculties_data.append(faculty)
 
-            student_found_in_faculty = False
+            faculty_found = False
 
+            # Check if the student is in any faculty
             for faculty in faculties_data:
-                if student_email in faculty.Student1:
-                    student_found_in_faculty = True
-                    print(f"Student with email '{student_email}' is a member of the following faculty:")
-                    print(f"- {faculty.name} ({faculty.abbreviation})")
+                if gmail_check in faculty['Student1']:
+                    faculty_found = True
+                    print(f"Student with email '{gmail_check}' is a member of the following faculty:")
+                    print(f"- {faculty['Name']} ({faculty['Abbreviation']})")
 
-            if not student_found_in_faculty:
-                print(f"Student with email '{student_email}' is not found in any faculty.")
+            if not faculty_found:
+                print(f"Student with email '{gmail_check}' is not found in any faculty.")
 
             another = input("Do you want to search another student? (yes/no): ").lower()
             if another != "yes":
@@ -151,4 +161,3 @@ class GeneralOperations:
             another = input("Do you want to search by another field? (yes/no): ").lower()
             if another != "yes":
                 break
-

@@ -5,13 +5,13 @@ class Faculty:
         self.Student1 = []
         self.Study_Field = Study_Field
 
-    def add_faculty(self, file_name):
-        faculty_info = self.change_to_string()  # Get the faculty's info as a formatted string
+    def add_to_file_faculties(self, file_name):
+        faculty_info = self.to_dict_as_str()  # Get the faculty's info as a formatted string
 
         with open(file_name, 'a') as file:
             file.write(faculty_info + '\n')  # Write the faculty's info as a line in the file
 
-    def change_to_string(self):
+    def to_dict_as_str(self):
         # Convert the student object to a formatted string
         faculties_str = (f'{{Name: {self.Name},'
                          f' Abbreviation: {self.Abbreviation},'

@@ -1,6 +1,6 @@
-from general_operations import GeneralOperations
-from faculty_operations import FacultyOperations
-from student_operations import StudentOperations
+from general_func import GeneralOperations
+from faculty_func import FacultyOperations
+from student_func import StudentOperations
 from student import Student
 
 
