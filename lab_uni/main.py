@@ -123,15 +123,48 @@ while True:
             faculties_list[faculty_index].add_to_university()
             UTM = University(faculties_data)
 
-    elif sub_option = 'ss':
+        elif sub_option = 'ss':
         student_email = input("Enter stdudent email: ")
         find_student(faculties_data, student_email)
 
-    elif sub_option == 'gf':
+        elif sub_option == 'gf':
         student_name = input("Enter the name of the student to graduate: ")
         for student in students_data:
             if student.name == student_name:
                 if student.graduation_status == "not_graduated":
                     stdudent.graduation_status = "graduated"
                     print(f"Now, {stdudent.name} is graduated ! ! !")
-                    
+
+    elif option == 'g':
+        print("ds - Display current enrolled students")
+        print("dg - Display graduates")
+        print("tl - Tell or not if a student belongs to this faculty")
+        print("df - Display University faculties ")
+        print("fd - Display faculties belonging to a field (Ex. FOOD_TECHNOLOGY)")
+        sub_option = input("Enter suboption: ")
+
+        if sub_option == 'ds':
+            list_enrolled_students(students_data)
+
+        elif sub_option == 'dg':
+            list_graduated_students(students_data)
+
+        elif sub_option == 'tl':
+            student_email = input("Enter student email: ")
+            student_faculty = input("Enter faculty name: ")
+            place_truth(student_email, student_faculty)
+
+        elif sub_option == 'df':
+            list_faculties(faculties_data)
+
+        elif sub_option == 'fd':
+            field = input("Enter the field: ")
+            list_faculties_field(field, faculties_list)
+
+    elif option == 'q':
+        print("You quited the program.")
+        break
+
+    
+
+   
