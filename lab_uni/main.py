@@ -6,11 +6,11 @@ faculties_data = {}
 class Faculty:
     def __init__(self, name, abbreviation, study_field):
         self.name = name
-        self. abbreviation = abbreviation
+        self.abbreviation = abbreviation
         self.study_field = study_field
 
     def add_to_university(self):
-        faculties_data[self.name] = []
+        faculties_data[self.name] = [self.name,self.abbreviation,self.study_field]
 
 class Student:
     def __init__(self, name, surname, email, birth_year, birth_month, birth_day, enrollment_year, enrollment_month, enrollment_day, graduation_status, faculty):
@@ -169,23 +169,27 @@ while True:
         print("You quited the program.")
         break
 
-# Open a text file in write mode
+# # Open a text file in write mode
+# with open("data.txt", "w") as txt_file:
+#     for key, value in faculties_data.items():
+#         faculty_name = key
+#         if key not in faculties_list:
+#             abbreviation = input(f"Enter abbreviation for {faculty_name}: ")
+#             study_field = input(f"Enter study field for {faculty_name}: ")
+#         else:
+#             # Retrieve the abbreviation and study field from the faculties_list
+#             faculty_info = next(faculty for faculty in faculties_list if faculty.name == faculty_name)
+#             abbreviation = faculty_info.abbreviation
+#             study_field = faculty_info.study_field
+
+#         txt_file.write(f"Faculty: {faculty_name}\n")
+#         txt_file.write(f"Abbreviation: {abbreviation}\n")
+#         txt_file.write(f"Study Field: {study_field}\n")
+
+#         for student_info in value:
+#             txt_file.write(f"    Student: {', '.join(map(str, student_info))}\n")
+
 with open("data.txt", "w") as txt_file:
+    # Iterate through the dictionary and write each key and its value on a new line
     for key, value in faculties_data.items():
-        faculty_name = key
-        if key not in faculties_list:
-            abbreviation = input(f"Enter abbreviation for {faculty_name}: ")
-            study_field = input(f"Enter study field for {faculty_name}: ")
-        else:
-            # Retrieve the abbreviation and study field from the faculties_list
-            faculty_info = next(faculty for faculty in faculties_list if faculty.name == faculty_name)
-            abbreviation = faculty_info.abbreviation
-            study_field = faculty_info.study_field
-
-        txt_file.write(f"Faculty: {faculty_name}\n")
-        txt_file.write(f"Abbreviation: {abbreviation}\n")
-        txt_file.write(f"Study Field: {study_field}\n")
-
-        for student_info in value:
-            txt_file.write(f"    Student: {', '.join(map(str, student_info))}\n")
-
+        txt_file.write(f"{key}: {value}\n")
