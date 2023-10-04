@@ -59,3 +59,26 @@ class GeneralOperations:
             with open(self.file_name_faculties, 'r') as faculties_file:
                 for line in faculty_file:
                     faculty_info = line.strip().split(', ')
+                    if len(faculty_info) < 4:
+                        print("Invalid data in faculties.txt. Please check the file format.")
+                        break
+                    student1_data = faculty_info[2].split(': ')[1].strip('[]')
+                    student1_list = [s.strip() for s in student1_data.split(';') if s.strip()]
+                    faculty = Faculty(faculty_info[0].split(': ')[1], faculty_info[1].split(': ')[1], faculty_info[3].split(': ')[1])
+                    faculty.Student1 = student1_list  # Assign the list of students to the Faculty object
+                    faculties_data.append(faculty)
+
+            faculty_found = False
+
+            for faculty in faculties_data:
+                if student_email in faculty.Student1:
+                    faculty_found = True
+                    print(f"Student with email '{student_email}' is a member of the following faculty:")
+                    print(f"- {faculty.name} ({faculty.abbreviation})")
+
+            if not faculty_found:
+                print(f"Student with email '{student_email}' is not found in any faculty.")
+
+            another = input("Do you want to search another student? (yes/no): ").lower()
+            if another != "yes":
+                break
