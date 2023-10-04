@@ -59,3 +59,37 @@ class StudentOperations:
             another = input("Do you want to kick another student? (y/n): ").lower()
             if another != "y":
                 break
+
+    def validate_date_input(self, message):
+        while True:
+            date = input(message)
+            try:
+                Student.validate_date(date)
+                return date
+            except ValueError as e:
+                print(e)
+
+    def load_enrolled_students(self):
+        enrolled_students = []
+        with open(self.file_name_enrolled, 'r') as enrolled_file:
+            for line in enrolled_file:
+                student_info = line.strip().split(', ')
+                student = {
+                    'First name': student_info[0].split(': ')[1],
+                    'Last name': student_info[1].split(': ')[1],
+                    'Email': student_info[2].split(': ')[1],
+                    'Enrollment date': student_info[3].split(': ')[1],
+                    'Date of birth': student_info[4].split(': ')[1]
+                }
+                enrolled_students.append(student)
+        return enrolled_students
+
+    def save_enrolled_students(self, enrolled_students):
+        with open(self.file_name_enrolled, 'w') as enrolled_file:
+            for student in enrolled_students:
+                enrolled_file.write(f"{{First name: {student['First name']}, Last name: {student['Last name']}, Email: {student['Email']}, Enrollment date: {student['Enrollment date']}, Date of birth: {student['Date of birth']}\n")
+
+    def load_faculties_data(self):
+        faculties_data = [
+            
+        ]
