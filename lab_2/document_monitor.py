@@ -4,6 +4,7 @@ import time
 from datetime import datetime
 from image_processing import get_image_size
 from text_processing import get_text_stats
+from program_stats import get_program_stats
 
 class DocumentMonitor:
     def __init__(self, folder_path):
@@ -41,10 +42,14 @@ class DocumentMonitor:
         elif file_info["extension"] == ".txt":
             file_info["line_count"], file_info["word_count"], file_info["char_count"] = get_text_stats(file_path)
         elif file_info["extension"] in {".py", ".java"}:
-            file_info["line_count"], file_info["class_count"], file_info["method_count"] = get_program_stats(file_path)
+            line_count, class_count, method_count, word_count, char_count = get_program_stats(file_path)
+            file_info["line_count"] = line_count
+            file_info["class_count"] = class_count
+            file_info["method_count"] = method_count
+            file_info["word_count"] = word_count
+            file_info["char_count"] = char_count
 
         self.file_info[file_info["name"]] = file_info
-
 
 
     def show_file_info(self, filename):
@@ -58,10 +63,22 @@ class DocumentMonitor:
                 print("Image Size:", file_info["image_size"])
             elif "line_count" in file_info:
                 print("Line Count:", file_info["line_count"])
-                print("Word Count:", file_info["word_count"])
-                print("Character Count:", file_info["char_count"])
+                if "word_count" in file_info:
+                    print("Word Count:", file_info["word_count"])
+                else:
+                    print("Word Count: N/A")
+                if "char_count" in file_info:
+                    print("Character Count:", file_info["char_count"])
+                else:
+                    print("Character Count: N/A")
+            if "class_count" in file_info:
+                print("Class Count:", file_info["class_count"])
+            if "method_count" in file_info:
+                print("Method Count:", file_info["method_count"])
         else:
             print(f"File '{filename}' not found in the monitored folder.")
+
+
 
     def check_status(self):
         if self.snapshot_time:
@@ -76,7 +93,7 @@ class DocumentMonitor:
                     print(f"{filename} - New File")
                 elif filename in deleted_files:
                     print(f"{filename} - Deleted")
-                elif os.path.exists(os.path.join(self.folder_path, filename)):
+                elif filename not in deleted_files and os.path.exists(os.path.join(self.folder_path, filename)):
                     if file_info["modified_time"] > self.snapshot_time:
                         print(f"{filename} - Changed")
                     else:
