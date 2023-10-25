@@ -10,9 +10,12 @@ class DocumentMonitor:
         self.folder_path = folder_path
         self.snapshot_time = None
         self.file_info = {}
+        self.previous_file_list = set()
+
 
     def create_snapshot(self):
         self.snapshot_time = datetime.now()
+        self.previous_file_list = set(self.file_info.keys())  # Store the previous file list
         self.file_info = {}
         print(f"Snapshot updated at {self.snapshot_time}")
 
@@ -37,8 +40,11 @@ class DocumentMonitor:
             file_info["image_size"] = get_image_size(file_path)
         elif file_info["extension"] == ".txt":
             file_info["line_count"], file_info["word_count"], file_info["char_count"] = get_text_stats(file_path)
+        elif file_info["extension"] in {".py", ".java"}:
+            file_info["line_count"], file_info["class_count"], file_info["method_count"] = get_program_stats(file_path)
 
         self.file_info[file_info["name"]] = file_info
+
 
 
     def show_file_info(self, filename):
@@ -60,8 +66,17 @@ class DocumentMonitor:
     def check_status(self):
         if self.snapshot_time:
             print(f"Snapshot taken at {self.snapshot_time}")
+
+            current_file_list = set(self.file_info.keys())
+            added_files = current_file_list - self.previous_file_list
+            deleted_files = self.previous_file_list - current_file_list
+
             for filename, file_info in self.file_info.items():
-                if os.path.exists(os.path.join(self.folder_path, filename)):
+                if filename in added_files:
+                    print(f"{filename} - New File")
+                elif filename in deleted_files:
+                    print(f"{filename} - Deleted")
+                elif os.path.exists(os.path.join(self.folder_path, filename)):
                     if file_info["modified_time"] > self.snapshot_time:
                         print(f"{filename} - Changed")
                     else:
