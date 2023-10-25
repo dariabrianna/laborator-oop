@@ -17,15 +17,18 @@ class DocumentMonitor:
         print(f"Snapshot updated at {self.snapshot_time}")
 
     def scan_folder(self):
+        print(f"Scanning folder: {self.folder_path}")
         files = os.listdir(self.folder_path)
+        print(f"Files in folder: {files}")
         for file in files:
             file_path = os.path.join(self.folder_path, file)
             if os.path.isfile(file_path):
                 self.update_file_info(file_path)
 
+
     def update_file_info(self, file_path):
         file_info = {}
-        file_info["name"] = os.path.basename(file_path)
+        file_info["name"] = os.path.relpath(file_path, self.folder_path)
         file_info["extension"] = os.path.splitext(file_path)[1]
         file_info["created_time"] = datetime.fromtimestamp(os.path.getctime(file_path))
         file_info["modified_time"] = datetime.fromtimestamp(os.path.getmtime(file_path))
@@ -36,6 +39,7 @@ class DocumentMonitor:
             file_info["line_count"], file_info["word_count"], file_info["char_count"] = get_text_stats(file_path)
 
         self.file_info[file_info["name"]] = file_info
+
 
     def show_file_info(self, filename):
         if filename in self.file_info:
