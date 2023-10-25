@@ -25,3 +25,8 @@ if __name__ == "__main__":
 class ANa:
     def __init__(self, x=0):
         self._x = x
+
+class Ana:
+    def __init__(self, y=0): info test.py
+
+    def 
