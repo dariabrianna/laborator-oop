@@ -1,8 +1,12 @@
-def run(monitor, file_name):
+# user_interface.py
+
+def run(monitor):
     while True:
         action = input("Enter action (commit, info <filename>, status, or exit): ")
-        if action.startswith("info "):
-            filename = action[5:]
+        if action == "commit":
+            monitor.create_snapshot()
+        elif action.startswith("info"):
+            _, filename = action.split(maxsplit=1)
             monitor.show_file_info(filename)
         elif action == "status":
             monitor.scan_folder()
