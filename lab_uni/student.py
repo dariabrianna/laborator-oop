@@ -1,9 +1,9 @@
 class Student:
-    def __init__(self, first_Name, last_Name, email, enrollment_Date, date_birth):
-        self.first_Name = first_Name
-        self.last_Name = last_Name
+    def __init__(self, first_name, last_name, email, enrollment_date, date_birth):
+        self.first_name = first_name
+        self.last_name = last_name
         self.email = email
-        self.enrollment_Date = enrollment_Date
+        self.enrollment_date = enrollment_date
         self.date_birth = date_birth
 
     @staticmethod
@@ -21,10 +21,10 @@ class Student:
     def to_dict_as_str(self):
         # Convert the student object to a custom formatted string
         student_str = (
-            f'{{First name: {self.first_Name}, '
-            f'Last name: {self.last_Name}, '
+            f'{{First name: {self.first_name}, '
+            f'Last name: {self.last_name}, '
             f'Email: {self.email}, '
-            f'Enrollment date: {self.enrollment_Date}, '
+            f'Enrollment date: {self.enrollment_date}, '
             f'Date of birth: {self.date_birth}}}'
         )
         return student_str
@@ -34,4 +34,3 @@ class Student:
 
         with open(file_name, 'a') as file:
             file.write(student_info + '\n')
-

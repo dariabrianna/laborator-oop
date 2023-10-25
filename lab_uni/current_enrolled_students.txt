@@ -1,1 +1,2 @@
 {First name: as, Last name: as, Email: as, Enrollment date: 1000/11/11, Date of birth: 1111/11/11}
+{First name: Ana, Last name: Calugareanu , Email: ana.calugareanu@gmail.com, Enrollment date: 2022/09/01, Date of birth: 2003/02/16}

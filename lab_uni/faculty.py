@@ -1,9 +1,9 @@
 class Faculty:
-    def __init__(self, Name, Abbreviation, Study_Field):
-        self.Name = Name
-        self.Abbreviation = Abbreviation
-        self.Student1 = []
-        self.Study_Field = Study_Field
+    def __init__(self, name, abbreviation, study_field):
+        self.name = name
+        self.abbreviation = abbreviation
+        self.students = []
+        self.study_field = study_field
 
     def add_to_file_faculties(self, file_name):
         faculty_info = self.to_dict_as_str()  # Get the faculty's info as a formatted string
@@ -13,9 +13,9 @@ class Faculty:
 
     def to_dict_as_str(self):
         # Convert the student object to a formatted string
-        faculties_str = (f'{{Name: {self.Name},'
-                         f' Abbreviation: {self.Abbreviation},'
-                         f' Student1: {self.Student1}, '
-                         f'Study_Field: {self.Study_Field}}}'
-                         )
-        return faculties_str
+        faculty_str = (f'{{Name: {self.name},'
+                       f' Abbreviation: {self.abbreviation},'
+                       f' Students: {self.students}, '
+                       f'Study_Field: {self.study_field}}}'
+                       )
+        return faculty_str

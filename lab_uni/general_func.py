@@ -62,21 +62,25 @@ class GeneralOperations:
                 continue
 
             # Load faculty data
-            with open(self.file_name_faculties, 'r') as faculty_file:
-                for line in faculty_file:
-                    faculty_info = line.strip().split(', ')
-                    if len(faculty_info) < 4:
-                        print("Invalid data in faculties.txt. Please check the file format.")
-                        break
-                    student1_data = faculty_info[2].split(': ')[1].strip('[]')
-                    student1_list = [s.strip() for s in student1_data.split(';') if s.strip()]
-                    faculty = {
-                        'Name': faculty_info[0].split(': ')[1],
-                        'Abbreviation': faculty_info[1].split(': ')[1],
-                        'Student1': student1_list,
-                        'Study_Field': faculty_info[3].split(': ')[1]
-                    }
-                    faculties_data.append(faculty)
+            # Load faculty data
+                with open(self.file_name_faculties, 'r') as faculty_file:
+                    for line in faculty_file:
+                        faculty_info = line.strip().split(', ')
+                        if len(faculty_info) < 4:
+                            print("Invalid data in faculties.txt. Please check the file format.")
+                            print("Line content:", line)  # Debugging: Print the problematic line
+                            continue  # Skip processing this line and move to the next
+
+                        student1_data = faculty_info[2].split(': ')[1].strip('[]')
+                        student1_list = [s.strip() for s in student1_data.split(';') if s.strip()]
+                        faculty = {
+                            'Name': faculty_info[0].split(': ')[1],
+                            'Abbreviation': faculty_info[1].split(': ')[1],
+                            'Student1': student1_list,
+                            'Study_Field': faculty_info[3].split(': ')[1]
+                        }
+                        faculties_data.append(faculty)
+
 
             faculty_found = False
 
@@ -94,18 +98,36 @@ class GeneralOperations:
             if another != "yes":
                 break
 
+
     def display_faculties(self):
         try:
             with open(self.file_name_faculties, 'r') as faculty_file:
                 for line in faculty_file:
-                    # Remove extra brackets at the beginning and end
-                    line = line.strip()[1:-1]
+                    line = line.strip()  # Remove leading and trailing whitespace
+                    if not line.startswith('{') or not line.endswith('}'):
+                        print(f"Skipping invalid line: {line}")
+                        continue  # Skip lines that don't have curly braces indicating a dictionary
+
+                    # Extract the content between curly braces
+                    content = line[1:-1].strip()
+
+                    # Split the content into key-value pairs
+                    key_value_pairs = [pair.strip() for pair in content.split(',')]
+
                     faculty_data = {}
-                    # Split the line by commas to separate key-value pairs
-                    key_value_pairs = line.strip().split(', ')
                     for pair in key_value_pairs:
-                        key, value = pair.split(': ')
+                        key_value = pair.split(': ', 1)  # Split into key and value, max split count = 1
+                        if len(key_value) != 2:
+                            print(f"Skipping invalid key-value pair: {pair}")
+                            continue  # Skip invalid key-value pairs
+                        key, value = key_value
                         faculty_data[key] = value
+
+                    # Check if required keys are present before printing
+                    if 'Name' not in faculty_data or 'Abbreviation' not in faculty_data:
+                        print(f"Skipping incomplete faculty data: {faculty_data}")
+                        continue
+
                     print("Name:", faculty_data.get("Name"))
                     print("Abbreviation:", faculty_data.get("Abbreviation"))
                     students_str = faculty_data.get("Student1", "[]")
@@ -116,6 +138,7 @@ class GeneralOperations:
 
         except FileNotFoundError:
             print(f"The '{self.file_name_faculties}' file does not exist.")
+
 
     def display_faculties_by_field(self):
         study_fields = ["Mechanical_Engineering", "Software_Engineering", "Food_Technology", "Urbanism_Architecture",

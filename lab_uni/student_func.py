@@ -1,29 +1,27 @@
 from student import Student
 from faculty_func import FacultyOperations
+
 class StudentOperations:
     def __init__(self, file_name_enrolled, file_name_faculties, file_name_congratulation_enrolling):
         self.file_name_enrolled = file_name_enrolled
         self.file_name_faculties = file_name_faculties
         self.file_name_congratulation_enrolling = file_name_congratulation_enrolling
 
-
     def input_student(self):
         while True:
-            first_Name = input("Enter first name: ")
-            last_Name = input("Enter last name: ")
+            first_name = input("Enter first name: ")
+            last_name = input("Enter last name: ")
             email = input("Enter email: ")
 
-            # Validate enrollment date and date of birth
             while True:
-                enrollment_Date = input("Enter enrollment date (yyyy/mm/dd): ")
+                enrollment_date = input("Enter enrollment date (yyyy/mm/dd): ")
                 try:
-                    Student.validate_date(enrollment_Date)
+                    Student.validate_date(enrollment_date)
                     break
                 except ValueError as e:
                     print(e)
 
             while True:
-                # Check date format
                 date_birth = input("Enter date of birth (yyyy/mm/dd): ")
                 try:
                     Student.validate_date(date_birth)
@@ -32,13 +30,13 @@ class StudentOperations:
                     print(e)
 
             try:
-                student = Student(first_Name, last_Name, email, enrollment_Date, date_birth)
+                student = Student(first_name, last_name, email, enrollment_date, date_birth)
                 student.add_to_file_enrolled(self.file_name_enrolled)
-                print(f"Student {first_Name}, added successfully.")
+                print(f"Student {first_name}, added successfully.")
             except ValueError as e:
                 print(e)
 
-            FacultyOperations.congratulations_enrolled(first_Name, last_Name, "", enrollment_Date, self.file_name_congratulation_enrolling)
+            FacultyOperations.congratulations_enrolled(first_name, last_name, "", enrollment_date, self.file_name_congratulation_enrolling)
 
             another = input("Do you want to add another student? (yes/no): ").lower()
             if another != "yes":
@@ -48,7 +46,6 @@ class StudentOperations:
         while True:
             kicked_email = input("Input email of which student you want to kick:")
 
-            # Check student existence
             student_found = False
             enrolled_students = []
 
@@ -71,18 +68,16 @@ class StudentOperations:
                 print(f"Student with email '{kicked_email}' not found.")
                 continue
 
-            # Remove the kicked student from the list of enrolled students
             updated_enrolled_students = [student for student in enrolled_students if
                                          student['Email'] != kicked_email]
 
-            # Save the updated list back to current_enrolled_students.txt
             with open(self.file_name_enrolled, 'w') as enrolled_file:
                 for student in updated_enrolled_students:
                     enrolled_file.write(
                         f"{{First name: {student['First name']}, Last name: {student['Last name']}, Email: {student['Email']}, Enrollment date: {student['Enrollment date']}, Date of birth: {student['Date of birth']}\n")
 
-            faculties_data = []  # List to store faculty information
-            # Load faculty data
+            faculties_data = []
+
             with open(self.file_name_faculties, 'r') as faculty_file:
                 for line in faculty_file:
                     faculty_info = line.strip().split(', ')
@@ -99,9 +94,7 @@ class StudentOperations:
                     }
                     faculties_data.append(faculty)
 
-            # Save the updated faculties data back to faculties.txt
             with open(self.file_name_faculties, 'w') as faculty_file:
-                # Iterate through faculties and remove the kicked student from their lists
                 for faculty in faculties_data:
                     if kicked_email in faculty.get("Student1", []):
                         faculty["Student1"].remove(kicked_email)

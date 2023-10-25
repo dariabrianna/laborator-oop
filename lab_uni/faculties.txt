@@ -1,2 +1,7 @@
 {Name: asdas, Abbreviation: as, Student1: [], Study_Field: Mechanical_Engineering}
 {Name: asdsadsa, Abbreviation: as, Student1: [], Study_Field: Mechanical_Engineering}
+{Name: Facultatea de Calculatoare si Informatica, Abbreviation: FCIM, Student1: [daria.brianna.reabciuc@gmail.com, ana.calugareanu@gmail.com], Study_Field: Software_Engineering}
+{Name: Facultatea de Design Vestimentar, Abbreviation: FDV, Student1: [], Study_Field: Urbanism_Architecture}
+{Name: facultatea de calculatoare si informatica, Abbreviation: FCIM, Student1: [], Study_Field: Software_Engineering}
+{Name: Electronica si Telecomunicatii , Abbreviation: ET, Students: [], Study_Field: Software_Engineering}
+{Name: Medicina Veterinara, Abbreviation: MV, Students: [], Study_Field: Veterinary_Medicine}
