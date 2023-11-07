@@ -5,9 +5,11 @@ class ArrayStack(Stack):
         self.top = -1
 
     def push(self, item):
-        if self.top < self.capacity - 1:
+        if not self.is_full():
             self.top += 1
             self.items[self.top] = item
+        else:
+            print("Stack is full. Cannot push item:", item)
 
     def pop(self):
         if not self.is_empty():
@@ -21,6 +23,9 @@ class ArrayStack(Stack):
 
     def is_empty(self):
         return self.top == -1
+
+    def is_full(self):
+        return self.top == self.capacity - 1
 
     def size(self):
         return self.top + 1

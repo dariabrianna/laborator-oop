@@ -4,18 +4,25 @@ class Node:
         self.next = None
 
 class LinkedStack(Stack):
-    def __init__(self):
+    def __init__(self, capacity):
+        self.capacity = capacity
         self.top = None
+        self.size = 0
 
     def push(self, item):
-        new_node = Node(item)
-        new_node.next = self.top
-        self.top = new_node
+        if not self.is_full():
+            new_node = Node(item)
+            new_node.next = self.top
+            self.top = new_node
+            self.size += 1
+        else:
+            print("Stack is full. Cannot push item:", item)
 
     def pop(self):
         if not self.is_empty():
             popped_item = self.top.data
             self.top = self.top.next
+            self.size -= 1
             return popped_item
 
     def peek(self):
@@ -25,10 +32,8 @@ class LinkedStack(Stack):
     def is_empty(self):
         return self.top is None
 
+    def is_full(self):
+        return self.size == self.capacity
+
     def size(self):
-        count = 0
-        current = self.top
-        while current:
-            count += 1
-            current = current.next
-        return count
+        return self.size
