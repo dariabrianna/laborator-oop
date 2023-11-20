@@ -1,13 +1,13 @@
 from abc import ABC, abstractmethod
 
 
-class Stack(ABC):
+class Queue(ABC):
     @abstractmethod
-    def push(self, item):
+    def enqueue(self, item):
         pass
 
     @abstractmethod
-    def pop(self):
+    def dequeue(self):
         pass
 
     @abstractmethod
@@ -23,40 +23,35 @@ class Stack(ABC):
         pass
 
 
-class Node:
-    def __init__(self, data):
-        self.data = data
-        self.next = None
-
-
-class LinkedStack(Stack):
+class ArrayQueue(Queue):
     def __init__(self, capacity):
         self.capacity = capacity
-        self.top = None
+        self.items = [None] * capacity
+        self.front = 0
+        self.rear = -1
         self.size = 0
 
-    def push(self, item):
+    def enqueue(self, item):
         if not self.is_full():
-            new_node = Node(item)
-            new_node.next = self.top
-            self.top = new_node
+            self.rear = (self.rear + 1) % self.capacity
+            self.items[self.rear] = item
             self.size += 1
         else:
-            print("Stack is full. Cannot push item:", item)
+            print("Queue is full. Cannot enqueue item:", item)
 
-    def pop(self):
+    def dequeue(self):
         if not self.is_empty():
-            popped_item = self.top.data
-            self.top = self.top.next
+            removed_item = self.items[self.front]
+            self.front = (self.front + 1) % self.capacity
             self.size -= 1
-            return popped_item
+            return removed_item
 
     def peek(self):
         if not self.is_empty():
-            return self.top.data
+            return self.items[self.front]
 
     def is_empty(self):
-        return self.top is None
+        return self.size == 0
 
     def is_full(self):
         return self.size == self.capacity

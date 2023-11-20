@@ -1,3 +1,28 @@
+from abc import ABC, abstractmethod
+
+
+class Stack(ABC):
+    @abstractmethod
+    def push(self, item):
+        pass
+
+    @abstractmethod
+    def pop(self):
+        pass
+
+    @abstractmethod
+    def peek(self):
+        pass
+
+    @abstractmethod
+    def is_empty(self):
+        pass
+
+    @abstractmethod
+    def get_size(self):
+        pass
+
+
 class ListStack(Stack):
     def __init__(self):
         self.items = []
@@ -22,5 +47,5 @@ class ListStack(Stack):
     def is_full(self):
         return len(self.items) == 5
 
-    def size(self):
+    def get_size(self):
         return len(self.items)

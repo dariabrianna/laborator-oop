@@ -18,5 +18,9 @@ class Stack(ABC):
         pass
     
     @abstractmethod
+    def is_full(self):
+        pass
+    
+    @abstractmethod
     def size(self):
         pass
